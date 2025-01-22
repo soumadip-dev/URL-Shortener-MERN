@@ -57,7 +57,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
    npm install
    ```
 
-   Create a `.env` file in the backend directory with:
+   Create a `.env` file in the client directory with:
 
    ```env
    PORT=8080
