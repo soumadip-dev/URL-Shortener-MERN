@@ -53,7 +53,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
 2. **Backend Setup**
 
    ```bash
-   cd backend
+   cd server
    npm install
    ```
 
@@ -83,7 +83,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
 4. **Running the Application**
    - First terminal (backend):
      ```bash
-     cd backend
+     cd server
      npm run dev
      ```
    - Second terminal (frontend):
