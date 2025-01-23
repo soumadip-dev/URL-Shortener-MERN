@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Copy, Check, ExternalLink } from 'lucide-react';
 import { getUserUrl } from '../api/user.api';
-import { BACKEND_URL } from '../config.js';
 
 const UserUrl = () => {
   const [copiedId, setCopiedId] = useState(null);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['userUrls'],
