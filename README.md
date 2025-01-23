@@ -70,7 +70,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
 3. **Frontend Setup**
 
    ```bash
-   cd ../frontend
+   cd ../client
    npm install
    ```
 
@@ -88,7 +88,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
      ```
    - Second terminal (frontend):
      ```bash
-     cd ../frontend
+     cd ../client
      npm run dev
      ```
 
