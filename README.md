@@ -5,16 +5,16 @@
 </h1>
 
 <div align="center">
-  <a href="https://github.com/soumadip-dev">
-    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,redux,tailwind,github" alt="Tech Stack" width="300" style="padding: 15px 0;">
-  </a>
+  <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,redux,tailwind,github" alt="Tech Stack" width="300">
 </div>
 
-<h3 align="center">
+<p align="center">
   A URL shortening application developed using the MERN stack for an efficient and modern web experience.
-</h3>
+</p>
 
----
+<div align="center">
+  <img src="https://github.com/soumadip-dev/URL-Shortener-MERN/blob/main/client/src/assets/ss.png" alt="URL Shortener screenshot" width="900">
+</div>
 
 ## 🌟 Features
 
@@ -23,15 +23,11 @@
 - 🔐 **User Authentication** – Secure login and registration using JWT.
 - 📊 **Analytics** – Track URL visits and generate usage reports.
 
----
-
 ## 🛠 Tech Stack
 
 - **Frontend**: React, Redux, Tailwind CSS, Tanstack Router, Tanstack Query
-- **Backend**: Node.js with Express (RESTful API)
-- **Database**: MongoDB with Mongoose (document-based storage)
-
----
+- **Backend**: Node.js, Express.js (RESTful API)
+- **Database**: MongoDB with Mongoose
 
 ## 🛠️ Installation
 
@@ -91,5 +87,3 @@
      cd ../client
      npm run dev
      ```
-
----
