@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Copy, Check, ExternalLink } from 'lucide-react';
 import { getUserUrl } from '../api/user.api';
+import { BACKEND_URL } from '../config.js';
 
 const UserUrl = () => {
   const [copiedId, setCopiedId] = useState(null);
@@ -94,7 +95,7 @@ const UserUrl = () => {
                     </td>
                     <td className="px-6 py-4">
                       <a
-                        href={`http://localhost:8080/shorturl/${url.short_url}`}
+                        href={`${BACKEND_URL}/shorturl/${url.short_url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-indigo-600 hover:text-indigo-900 hover:underline text-sm font-medium"
@@ -116,7 +117,7 @@ const UserUrl = () => {
                     <td className="px-6 py-4 text-right text-sm font-medium">
                       <button
                         onClick={() =>
-                          handleCopy(`http://localhost:8080/shorturl/${url.short_url}`, url._id)
+                          handleCopy(`${BACKEND_URL}/shorturl/${url.short_url}`, url._id)
                         }
                         className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                           copiedId === url._id
@@ -156,7 +157,7 @@ const UserUrl = () => {
                   <div className="text-sm font-medium text-gray-900 truncate">{url.full_url}</div>
                   <div className="mt-2 flex items-center justify-between">
                     <a
-                      href={`http://localhost:8080/shorturl/${url.short_url}`}
+                      href={`${BACKEND_URL}/shorturl/${url.short_url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-indigo-600 hover:text-indigo-900 hover:underline text-sm"
@@ -176,7 +177,7 @@ const UserUrl = () => {
                   <div className="mt-3 flex justify-end">
                     <button
                       onClick={() =>
-                        handleCopy(`http://localhost:8080/shorturl/${url.short_url}`, url._id)
+                        handleCopy(`${BACKEND_URL}/shorturl/${url.short_url}`, url._id)
                       }
                       className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                         copiedId === url._id
