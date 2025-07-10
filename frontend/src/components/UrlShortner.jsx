@@ -17,22 +17,27 @@ const UrlShortner = () => {
     mutationKey: ['shortUrl'],
     mutationFn: getShortUrl,
     onSuccess: data => {
-      setShortUrl(data.shortUrl);
+      setShortUrl(data.shortUrl); // Only set shortUrl here
       toast.success('Short URL created successfully');
-      // Invalidate the userUrls query to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ['userUrls'] });
     },
     onError: error => {
       console.error('Error creating short URL:', error);
-      toast.error('Failed to create short URL');
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Failed to create short URL';
+      toast.error(errorMessage);
     },
   });
 
   const handleSubmit = async e => {
     e.preventDefault();
     setShortUrl('');
-    mutate(originalUrl);
+    // Pass both originalUrl and customSlug (if authenticated)
+    mutate(isAuthenticated ? { url: originalUrl, slug: customSlug } : { url: originalUrl });
     setOriginalUrl('');
+    setCustomSlug(''); // Reset custom slug after submission
   };
 
   const handleCopy = () => {
