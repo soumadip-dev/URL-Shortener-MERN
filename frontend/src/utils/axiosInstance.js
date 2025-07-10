@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { BACKEND_URL } from '../config.js';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: BACKEND_URL,
   headers: {
     'Content-Type': 'application/json',
   },
