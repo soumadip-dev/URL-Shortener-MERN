@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getShortUrl } from '../api/urlService.api.js';
 import toast, { Toaster } from 'react-hot-toast';
 import { LinkIcon, Loader2, ArrowRight, Check, Copy } from 'lucide-react';
@@ -11,6 +11,7 @@ const UrlShortner = () => {
   const [copied, setCopied] = useState(false);
   const { isAuthenticated } = useSelector(state => state.auth);
   const [customSlug, setCustomSlug] = useState('');
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['shortUrl'],
@@ -18,6 +19,8 @@ const UrlShortner = () => {
     onSuccess: data => {
       setShortUrl(data.shortUrl);
       toast.success('Short URL created successfully');
+      // Invalidate the userUrls query to trigger a refetch
+      queryClient.invalidateQueries({ queryKey: ['userUrls'] });
     },
     onError: error => {
       console.error('Error creating short URL:', error);
