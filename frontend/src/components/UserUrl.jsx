@@ -6,15 +6,15 @@ import { getUserUrl } from '../api/user.api';
 const UserUrl = () => {
   const [copiedId, setCopiedId] = useState(null);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['userUrls'],
     queryFn: getUserUrl,
-    gcTime: 0,
-    refetchInterval: 1000,
+    gcTime: 60_000,
+    staleTime: 0,
   });
 
-  const { userUrls = [] } = data || {};
-  const urls = userUrls;
+  // Reverse the array to show newest URLs first
+  const urls = data?.userUrls?.slice().reverse() || [];
 
   const handleCopy = (url, id) => {
     navigator.clipboard.writeText(url);
@@ -27,6 +27,16 @@ const UserUrl = () => {
       <div className="min-h-full bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 p-4">
         <div className="bg-white rounded-xl shadow-sm overflow-hidden p-8 text-center">
           Loading...
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-full bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 p-4">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden p-8 text-center text-red-500">
+          Error loading URLs
         </div>
       </div>
     );
