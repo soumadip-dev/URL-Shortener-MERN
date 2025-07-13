@@ -1,5 +1,5 @@
 //* import axiosinstance from utils
-import axiosInstance from '../utils/axiosInsance.js';
+import axiosInstance from '../utils/axiosInstance.js';
 
 //* Mutation function to Register a user
 export const registerUser = async credentials => {

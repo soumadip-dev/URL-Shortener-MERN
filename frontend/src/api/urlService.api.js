@@ -1,4 +1,4 @@
-import axiosInstance from '../utils/axiosInsance.js';
+import axiosInstance from '../utils/axiosInstance.js';
 
 export const getShortUrl = async url => {
   const response = await axiosInstance.post('/shorturl/create', {
