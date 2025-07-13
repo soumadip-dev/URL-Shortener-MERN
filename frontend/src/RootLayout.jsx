@@ -1,5 +1,10 @@
+import { Outlet } from '@tanstack/react-router';
 const RootLayout = () => {
-  <HomePage />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 };
 
 export default RootLayout;

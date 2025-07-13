@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { getShortUrl } from '../api/urlService.api.js';
 import toast, { Toaster } from 'react-hot-toast';
 
-const ShortUrlPage = () => {
+const HomePage = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [copied, setCopied] = useState(false);
@@ -60,4 +60,4 @@ const ShortUrlPage = () => {
     </div>
   );
 };
-export default ShortUrlPage;
+export default HomePage;
