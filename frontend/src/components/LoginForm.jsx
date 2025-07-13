@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Mail, Key, ArrowRight, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Key, ArrowRight, User } from 'lucide-react';
 
 //* Utility function for extracting error messages
 const getErrorMessage = err => {
@@ -126,7 +126,7 @@ const LoginForm = ({ changePage }) => {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-indigo-600 transition-colors"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? <Key className="h-5 w-5" /> : <Key className="h-5 w-5" />}
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
           </div>
