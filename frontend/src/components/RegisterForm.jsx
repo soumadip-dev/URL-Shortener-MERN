@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { Eye, EyeOff } from 'lucide-react'; // Import eye icons
 
 //* Utility function for extracting error messages
 const getErrorMessage = err => {
@@ -21,6 +22,7 @@ const RegisterForm = ({ changePage }) => {
     email: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
@@ -64,6 +66,10 @@ const RegisterForm = ({ changePage }) => {
     mutate(formData);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6 transition-all hover:shadow-2xl">
       <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-center">
@@ -105,21 +111,31 @@ const RegisterForm = ({ changePage }) => {
           />
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-1 relative">
           <label htmlFor="password" className="text-sm font-medium text-gray-700">
             Password
           </label>
-          <input
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            type="password"
-            id="password"
-            required
-            placeholder="Create a password"
-            autoComplete="new-password"
-            className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              required
+              placeholder="Create a password"
+              autoComplete="new-password"
+              className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300 pr-10"
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-indigo-600"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         <button
