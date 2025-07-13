@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff } from 'lucide-react'; // Import eye icons
+import { Eye, EyeOff, User, Mail, Key, ArrowRight, UserPlus } from 'lucide-react';
 
 //* Utility function for extracting error messages
 const getErrorMessage = err => {
@@ -22,7 +22,7 @@ const RegisterForm = ({ changePage }) => {
     email: '',
     password: '',
   });
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
@@ -71,91 +71,121 @@ const RegisterForm = ({ changePage }) => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6 transition-all hover:shadow-2xl">
-      <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-center">
-        Register
-      </h2>
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6 transition-all hover:shadow-2xl relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute -top-20 -right-20 w-40 h-40 bg-indigo-100 rounded-full opacity-30"></div>
+      <div className="absolute -bottom-16 -left-16 w-32 h-32 bg-purple-100 rounded-full opacity-30"></div>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="space-y-1">
-          <label htmlFor="name" className="text-sm font-medium text-gray-700">
-            Full Name
-          </label>
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            type="text"
-            id="name"
-            required
-            placeholder="Enter your full name"
-            autoComplete="name"
-            className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
-          />
-        </div>
-
-        <div className="space-y-1">
-          <label htmlFor="email" className="text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            type="email"
-            id="email"
-            required
-            placeholder="Enter your email"
-            autoComplete="email"
-            className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
-          />
-        </div>
-
-        <div className="space-y-1 relative">
-          <label htmlFor="password" className="text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              required
-              placeholder="Create a password"
-              autoComplete="new-password"
-              className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300 pr-10"
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-indigo-600"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-            </button>
+      <div className="relative z-10">
+        <div className="flex justify-center mb-2">
+          <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4">
+            <UserPlus className="h-6 w-6 text-indigo-600" strokeWidth={2.5} />
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={!isFormValid || isPending}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3.5 px-4 rounded-xl flex items-center justify-center transition-all disabled:opacity-80 shadow-lg hover:shadow-indigo-200 active:scale-[0.98]"
-        >
-          {isPending ? 'Registering...' : 'Register'}
-        </button>
-      </form>
+        <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-center">
+          Create Account
+        </h2>
+        <p className="text-center text-sm text-gray-500 mt-1">Join us to get started</p>
 
-      <div className="text-center space-y-3 text-sm">
-        <div className="text-gray-500">
-          Already have an account?
-          <span
-            className="cursor-pointer text-indigo-600 hover:text-indigo-800 hover:underline ml-1"
-            onClick={() => changePage('login')}
+        <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
+          <div className="space-y-1">
+            <label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center">
+              <User className="h-4 w-4 mr-1" />
+              Full Name
+            </label>
+            <div className="relative">
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                type="text"
+                id="name"
+                required
+                placeholder="John Doe"
+                autoComplete="name"
+                className="w-full pl-5 pr-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label htmlFor="email" className="text-sm font-medium text-gray-700 flex items-center">
+              <Mail className="h-4 w-4 mr-1" />
+              Email
+            </label>
+            <div className="relative">
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                type="email"
+                id="email"
+                required
+                placeholder="john@example.com"
+                autoComplete="email"
+                className="w-full pl-5 pr-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-gray-700 flex items-center"
+            >
+              <Key className="h-4 w-4 mr-1" />
+              Password
+            </label>
+            <div className="relative">
+              <input
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                required
+                placeholder="••••••••"
+                autoComplete="new-password"
+                className="w-full pl-5 pr-10 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-indigo-600 transition-colors"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={!isFormValid || isPending}
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3.5 px-4 rounded-xl flex items-center justify-center transition-all disabled:opacity-80 shadow-lg hover:shadow-indigo-200 active:scale-[0.98] group"
           >
-            Login
-          </span>
+            {isPending ? (
+              'Registering...'
+            ) : (
+              <>
+                Register
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="text-center space-y-3 text-sm mt-6">
+          <div className="text-gray-500 flex items-center justify-center">
+            Already have an account?
+            <span
+              className="cursor-pointer text-indigo-600 hover:text-indigo-800 hover:underline ml-1 flex items-center"
+              onClick={() => changePage('login')}
+            >
+              Login <ArrowRight className="ml-1 h-4 w-4" />
+            </span>
+          </div>
         </div>
       </div>
     </div>
