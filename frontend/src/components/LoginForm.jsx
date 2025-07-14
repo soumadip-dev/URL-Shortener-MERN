@@ -15,7 +15,7 @@ const getErrorMessage = err => {
 };
 
 //* Login form component
-const LoginForm = () => {
+const LoginForm = ({ changePage }) => {
   // States
   const [formData, setFormData] = useState({
     email: '',
@@ -107,7 +107,10 @@ const LoginForm = () => {
       <div className="text-center space-y-3 text-sm">
         <div className="text-gray-500">
           Don't have an account?
-          <span className="cursor-pointer text-indigo-600 hover:text-indigo-800 hover:underline ml-1">
+          <span
+            className="cursor-pointer text-indigo-600 hover:text-indigo-800 hover:underline ml-1"
+            onClick={() => changePage('register')}
+          >
             Register
           </span>
         </div>
