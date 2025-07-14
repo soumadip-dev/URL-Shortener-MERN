@@ -3,29 +3,63 @@ import { loginUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
+//* Utility function for extracting error messages
+const getErrorMessage = err => {
+  if (err.response) {
+    return err.response.data?.message || err.response.statusText;
+  } else if (err.request) {
+    return 'No response from server';
+  } else {
+    return err.message;
+  }
+};
+
 //* Login form component
 const LoginForm = () => {
   // States
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
   // Mutations and handlers of react query
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
+      setFormData({ email: '', password: '' });
       toast.success('Login successful');
     },
     onError: err => {
-      toast.error('Login error:', err);
-      console.log(err);
+      toast.error(getErrorMessage(err));
+      console.error(err);
     },
   });
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   // Submit handler function
   const handleSubmit = async e => {
     e.preventDefault();
-    mutate({ email, password });
+
+    if (!isValidEmail(formData.email)) {
+      return toast.error('Please enter a valid email address');
+    }
+
+    if (formData.password.length < 6) {
+      return toast.error('Password must be at least 6 characters');
+    }
+
+    mutate(formData);
   };
+
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6 transition-all hover:shadow-2xl">
       <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-center">
@@ -38,9 +72,10 @@ const LoginForm = () => {
           </label>
           <input
             type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            name="email"
             id="email"
+            value={formData.email}
+            onChange={handleChange}
             className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
             required
             placeholder="Enter your email"
@@ -52,9 +87,10 @@ const LoginForm = () => {
           </label>
           <input
             type="password"
+            name="password"
             id="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
             required
             placeholder="Enter your password"
