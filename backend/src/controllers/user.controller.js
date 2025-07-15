@@ -1,10 +1,10 @@
-import urlSchema from '../models/shorturl.model.js';
+import { getUserUrls } from '../services/user.service.js';
 
 //* Coontroller for getting all Url of the user
 const getAllUserUrls = async (req, res) => {
   try {
     const { id } = req.user;
-    const userUrls = await urlSchema.find({ user: id });
+    const userUrls = await getUserUrls(id);
     res.status(200).json({ userUrls, success: true });
   } catch (error) {
     console.error(error.message);
