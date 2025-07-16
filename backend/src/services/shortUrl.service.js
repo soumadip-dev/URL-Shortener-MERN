@@ -1,5 +1,10 @@
 import { generateNanoid } from '../utils/helper.js';
-import { saveShortUrl, findUrlByShortId, getCustomeShortUrl } from '../dao/shortUrl.dao.js';
+import {
+  saveShortUrl,
+  saveShortUrlUser,
+  findUrlByShortId,
+  getCustomeShortUrl,
+} from '../dao/shortUrl.dao.js';
 
 //* Function to Creates a short URL for an anonymous (non-authenticated) user.
 export const createAnonymousShortUrl = async url => {
@@ -14,7 +19,7 @@ export const createUserShortUrl = async (url, userId, slug = null) => {
   const exiists = await getCustomeShortUrl(slug);
   if (exiists) throw new Error('This custom short url already exists');
 
-  await saveShortUrl({ full_url: url, short_url: shortUrl, user: userId });
+  await saveShortUrlUser({ full_url: url, short_url: shortUrl, user: userId });
   return shortUrl; // Return the short URL
 };
 
