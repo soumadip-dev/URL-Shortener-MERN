@@ -6,6 +6,7 @@ import { connectDB } from './config/db.js';
 import shortUrlRoutes from './routes/shorturl.route.js';
 import auth_routes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
+import { attachUser } from './utils/attachUser.js';
 
 // Initialize an Express application
 const app = express();
@@ -19,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware to parse cookies
 app.use(cookieParser());
+
+app.use(attachUser);
 
 // Enable CORS
 app.use(cors());
