@@ -42,7 +42,6 @@ const ShortUrlPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 flex flex-col items-center justify-center p-4">
       <Toaster position="bottom-center" reverseOrder={false} />
-
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-8 transition-all hover:shadow-2xl">
         <Header />
         <UrlForm
