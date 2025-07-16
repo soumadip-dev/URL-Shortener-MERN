@@ -1,23 +1,27 @@
+//* import axiosinstance from utils
 import axiosInstance from '../utils/axiosInsance.js';
 
-export const registerUser = async (name, email, password) => {
+//* Mutation function to Register a user
+export const registerUser = async credentials => {
   const response = await axiosInstance.post('/auth/register', {
-    name: name,
-    email: email,
-    password: password,
+    name: credentials.name,
+    email: credentials.email,
+    password: credentials.password,
   });
   console.log(response);
   return response.data;
 };
 
-export const loginUser = async (email, password) => {
+//* Mutation function to Login a user
+export const loginUser = async credentials => {
   const response = await axiosInstance.post('/auth/login', {
-    email: email,
-    password: password,
+    email: credentials.email,
+    password: credentials.password,
   });
   return response.data;
 };
 
+//* Mutation function to Logout a user
 export const logoutUser = async () => {
   const response = await axiosInstance.get('/auth/logout');
   return response.data;
