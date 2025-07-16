@@ -1,10 +1,20 @@
 import urlSchema from '../models/shorturl.model.js';
 
-//* Saves a new short URL to the database
+//* Saves a new short URL to the database for anonymous users
 export const saveShortUrl = async ({ full_url, short_url }) => {
   const newUrl = new urlSchema({
     full_url,
     short_url,
+  });
+  await newUrl.save();
+};
+
+// * Saves a new short URL to the database for authenticated users
+export const saveShortUrlUser = async ({ full_url, short_url, user }) => {
+  const newUrl = new urlSchema({
+    full_url,
+    short_url,
+    user,
   });
   await newUrl.save();
 };
