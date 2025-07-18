@@ -31,7 +31,7 @@ const shortUrlController = async (req, res) => {
 };
 
 //* Controller for authenticated users to create short URL
-const createUserShortUrlController = async (req, res) => {
+const UserShortUrlController = async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
@@ -78,4 +78,4 @@ const redirectController = async (req, res) => {
 };
 
 // Export the controllers
-export { shortUrlController, redirectController, createUserShortUrlController };
+export { shortUrlController, redirectController, UserShortUrlController };
