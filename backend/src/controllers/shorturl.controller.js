@@ -1,7 +1,11 @@
-import { createAnonymousShortUrl, getFullUrl } from '../services/shortUrl.service.js';
+import {
+  createAnonymousShortUrl,
+  getFullUrl,
+  createUserShortUrl,
+} from '../services/shortUrl.service.js';
 import { ENV } from '../config/env.js';
 
-// Controller for creating a new short URL
+//* Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
 
@@ -10,7 +14,12 @@ const shortUrlController = async (req, res) => {
   }
 
   try {
-    const shortUrl = await createAnonymousShortUrl(url);
+    let shortUrl;
+    if (req.user) {
+      shortUrl = await createUserShortUrl(url, req.user.id);
+    } else {
+      shortUrl = await createAnonymousShortUrl(url);
+    }
 
     if (!shortUrl) {
       return res.status(500).json({ error: 'Failed to create short URL' });
@@ -26,7 +35,7 @@ const shortUrlController = async (req, res) => {
   }
 };
 
-// Controller for redirecting to the full URL using the short URL
+//* Controller for redirecting to the full URL using the short URL
 const redirectController = async (req, res) => {
   const { id } = req.params; // Extract the short URL ID from the request parameters
 
