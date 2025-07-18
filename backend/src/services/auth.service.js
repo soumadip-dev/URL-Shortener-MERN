@@ -130,23 +130,16 @@ const forgotPass = async email => {
 const resetPass = async (token, newPassword) => {
   if (!token) throw new Error('Reset token is required');
 
-  const user = await User.findOne({
-    resetPasswordToken: token,
-    resetPasswordExpiry: { $gt: Date.now() },
-  });
-
+  const user = await authDAO.findUserByResetToken(token);
   if (!user) throw new Error('User not found with this reset token');
   if (!isStrongPassword(newPassword)) throw new Error('Password is not strong enough');
 
-  // Check if password is same as old password
+  // Check if new password is same as old password
   const isSamePassword = await bcrypt.compare(newPassword, user.password);
   if (isSamePassword) throw new Error('Password is same as old password');
 
-  // Update password and clear reset token
-  user.password = newPassword;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpiry = undefined;
-  await user.save();
+  // Update user password
+  await authDAO.updateUserPassword(user._id, newPassword);
 
   return { message: 'Password reset successfully' };
 };
