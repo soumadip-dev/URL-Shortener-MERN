@@ -5,7 +5,7 @@ import {
 } from '../services/shortUrl.service.js';
 import { ENV } from '../config/env.js';
 
-//* Controller for creating a new short URL
+//* Controller for anonymous users to create short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
 
@@ -14,12 +14,7 @@ const shortUrlController = async (req, res) => {
   }
 
   try {
-    let shortUrl;
-    if (req.user) {
-      shortUrl = await createUserShortUrl(url, req.user.id);
-    } else {
-      shortUrl = await createAnonymousShortUrl(url);
-    }
+    const shortUrl = await createAnonymousShortUrl(url);
 
     if (!shortUrl) {
       return res.status(500).json({ error: 'Failed to create short URL' });
@@ -27,10 +22,39 @@ const shortUrlController = async (req, res) => {
 
     res.status(201).json({
       shortUrl: `${ENV.APP_URL}/shorturl/${shortUrl}`,
-      message: 'Short URL created successfully',
+      message: 'Short URL created successfully (anonymous)',
     });
   } catch (error) {
-    console.error('Error creating short URL:', error);
+    console.error('Error creating anonymous short URL:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+//* Controller for authenticated users to create short URL
+const createUserShortUrlController = async (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required' });
+  }
+
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'User authentication required' });
+  }
+
+  try {
+    const shortUrl = await createUserShortUrl(url, req.user.id);
+
+    if (!shortUrl) {
+      return res.status(500).json({ error: 'Failed to create short URL' });
+    }
+
+    res.status(201).json({
+      shortUrl: `${ENV.APP_URL}/shorturl/${shortUrl}`,
+      message: 'Short URL created successfully (user)',
+    });
+  } catch (error) {
+    console.error('Error creating user short URL:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -54,4 +78,4 @@ const redirectController = async (req, res) => {
 };
 
 // Export the controllers
-export { shortUrlController, redirectController };
+export { shortUrlController, redirectController, createUserShortUrlController };
