@@ -106,14 +106,12 @@ const getCurrentUser = async userId => {
 const forgotPass = async email => {
   if (!email) throw new Error('Email is required');
 
-  const user = await User.findOne({ email });
+  const user = await authDAO.findUserByEmail(email);
   if (!user) throw new Error('User not found with this email');
 
   // Generate and save reset token
   const token = crypto.randomBytes(32).toString('hex');
-  user.resetPasswordToken = token;
-  user.resetPasswordExpiry = Date.now() + 10 * 60 * 1000;
-  await user.save();
+  await authDAO.setResetPasswordToken(user._id, token);
 
   // Send reset email
   const mailOptions = generateMailOptions({
