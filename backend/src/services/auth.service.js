@@ -97,7 +97,7 @@ const login = async (email, password) => {
 
 //* Get current user
 const getCurrentUser = async userId => {
-  const user = await User.findById(userId).select('-password');
+  const user = await authDAO.findUserById(userId);
   if (!user) throw new Error('User not found');
   return user;
 };
