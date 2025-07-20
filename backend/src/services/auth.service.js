@@ -71,7 +71,7 @@ const login = async (email, password) => {
   if (!email || !password) throw new Error('Email and password are required');
 
   // Find the user by email
-  const user = await User.findOne({ email });
+  const user = await authDAO.findUserByEmail(email);
 
   // If user is not found, throw an error
   if (!user) throw new Error('User not found');
