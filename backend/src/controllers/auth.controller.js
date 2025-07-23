@@ -20,7 +20,17 @@ const registerUser = async (req, res) => {
 };
 
 // Controller for user verification
-const verifyUser = async (req, res) => {};
+const verifyUser = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const response = await verify(token);
+    res.status(200).json({ message: response.message, success: true });
+  } catch (error) {
+    console.error(error.message);
+    const statusCode = error.message.includes('not found') ? 404 : 400;
+    res.status(statusCode).json({ message: error.message, success: false });
+  }
+};
 
 // Controller for login user
 const loginUser = (req, res) => {};
