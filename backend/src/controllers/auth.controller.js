@@ -47,7 +47,16 @@ const loginUser = (req, res) => {
 };
 
 //* Controller for getting current user
-const getMe = async (req, res) => {};
+const getMe = async (req, res) => {
+  try {
+    const response = await getCurrentUser(req.user.id);
+    res.status(200).json({ message: response.message, success: true });
+  } catch (error) {
+    console.error(error.message);
+    const statusCode = error.message.includes('not found') ? 404 : 400;
+    res.status(statusCode).json({ message: error.message, success: false });
+  }
+};
 
 //* Controller for logout
 const logout = async (req, res) => {};
