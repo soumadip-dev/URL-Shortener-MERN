@@ -5,6 +5,7 @@ import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
 import shortUrlRoutes from './routes/shorturl.route.js';
 import auth_routes from './routes/auth.route.js';
+import cookieParser from 'cookie-parser';
 
 // Initialize an Express application
 const app = express();
@@ -15,6 +16,9 @@ const PORT = ENV.PORT || 8080;
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware to parse cookies
+app.use(cookieParser());
 
 // Enable CORS
 app.use(cors());

@@ -4,11 +4,10 @@ import { ENV } from '../config/env.js';
 export const isLoogedIn = async (req, res, next) => {
   try {
     // Get the token from the cookies
-    let token = req.cookies?.jwt;
+    let token = req.cookies?.AUTHTOKEN;
 
     // If no token is present, return an unauthorized response
     if (!token) {
-      console.log('No token found');
       return res.status(401).json({ message: 'Unauthorized', success: false });
     }
 
