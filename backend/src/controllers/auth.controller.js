@@ -1,5 +1,23 @@
+import {
+  register,
+  verify,
+  login,
+  getCurrentUser,
+  forgotPass,
+  resetPass,
+} from '../services/auth.service.js';
 // Coontroller for registering user
-const registerUser = (req, res) => {};
+const registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const response = await register({ name, email, password });
+    res.status(201).json({ message: response.message, success: true });
+  } catch (error) {
+    console.error(error.message);
+    const statusCode = error.message.includes('not found') ? 404 : 400;
+    res.status(statusCode).json({ message: error.message, success: false });
+  }
+};
 
 // Controller for user verification
 const verifyUser = async (req, res) => {};
