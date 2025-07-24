@@ -7,7 +7,7 @@ export default function generateMailOptions({ user, token, type, companyName }) 
     case 'verify':
       subject = 'Verify Your Email Address';
       actionText = 'Verify Email';
-      actionUrlPath = `/api/v1/users/verify/${token}`;
+      actionUrlPath = `/auth/verify/${token}`;
       message = 'Please verify your email by clicking the button below:';
       break;
 
@@ -29,7 +29,7 @@ export default function generateMailOptions({ user, token, type, companyName }) 
       throw new Error('Unsupported email type');
   }
 
-  const baseUrl = ENV.BASE_URL;
+  const baseUrl = ENV.APP_URL;
   const fullActionUrl = actionUrlPath ? `${baseUrl}${actionUrlPath}` : null;
 
   return {

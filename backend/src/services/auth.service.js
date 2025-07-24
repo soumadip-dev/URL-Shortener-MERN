@@ -52,7 +52,7 @@ const register = async userData => {
   return { message: 'User created successfully', user: newUser };
 };
 
-// Verify a user
+//* Verify a user
 const verify = async token => {
   if (!token) throw new Error('Token is required');
 
@@ -73,11 +73,13 @@ const login = async (email, password) => {
 
   // Find the user by email
   const user = await User.findOne({ email });
+
   // If user is not found, throw an error
   if (!user) throw new Error('User not found');
 
   // Check if the password is correct
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
   // If password is incorrect, throw an error
   if (!isPasswordCorrect) throw new Error('Password is incorrect');
 

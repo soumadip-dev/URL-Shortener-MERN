@@ -52,10 +52,10 @@ const loginUser = async (req, res) => {
     const cookieOptions = {
       httpOnly: true,
       sameSite: 'strict',
-      secure: ENV.NODE_ENV === 'production',
+      secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     };
-    res.cookie('jwt', token, cookieOptions);
+    res.cookie('AUTHTOKEN', token, cookieOptions);
 
     // Return a JSON response with a 200 status code
     res.status(200).json({
