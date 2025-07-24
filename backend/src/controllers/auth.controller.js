@@ -95,7 +95,7 @@ const getMe = async (req, res) => {
 const logout = async (req, res) => {
   try {
     // Clear the cookie
-    res.cookie('jwt', '', { maxAge: 1 });
+    res.cookie('AUTHTOKEN', '', { maxAge: 1 });
 
     // Return a JSON response with a 200 status code
     res.status(200).json({ message: 'User logged out successfully', success: true });
