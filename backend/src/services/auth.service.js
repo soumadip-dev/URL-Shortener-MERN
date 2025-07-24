@@ -6,6 +6,7 @@ import generateMailOptions from '../utils/mailTemplates.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { isValidEmail, isStrongPassword } from '../utils/validation.js';
+import authDAO from '../dao/auth.dao.js';
 
 //* Email transporter configuration
 const transporter = nodemailer.createTransport({
@@ -27,11 +28,11 @@ const register = async userData => {
   if (!isStrongPassword(password)) throw new Error('Password is not strong enough');
 
   // Check if user exists
-  const existingUser = await User.findOne({ email });
+  const existingUser = await authDAO.findUserByEmail(email);
   if (existingUser) throw new Error('User already exists');
 
   // Create new user
-  const newUser = await User.create({ name, email, password });
+  const newUser = await authDAO.createUser({ name, email, password });
   if (!newUser) throw new Error('User not registered');
 
   // Generate and save verification token
