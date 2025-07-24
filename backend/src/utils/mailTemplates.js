@@ -14,7 +14,7 @@ export default function generateMailOptions({ user, token, type, companyName }) 
     case 'reset':
       subject = 'Reset Your Password';
       actionText = 'Reset Password';
-      actionUrlPath = `/api/v1/users/reset-password/${token}`;
+      actionUrlPath = `/auth/reset-password/${token}`;
       message = 'Click the button below to reset your password:';
       break;
 
