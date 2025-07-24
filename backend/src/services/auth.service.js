@@ -57,12 +57,10 @@ const register = async userData => {
 const verify = async token => {
   if (!token) throw new Error('Token is required');
 
-  const user = await User.findOne({ verificationToken: token });
+  const user = await authDAO.findUserByVerificationToken(token);
   if (!user) throw new Error('User not found');
 
-  user.isVerified = true;
-  user.verificationToken = undefined;
-  await user.save();
+  await authDAO.updateUserVerification(user._id, true);
 
   return { message: 'User verified successfully', user };
 };
