@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { isValidEmail, isStrongPassword } from '../utils/validation.js';
 
-// Email transporter configuration
+//* Email transporter configuration
 const transporter = nodemailer.createTransport({
   host: ENV.MAILTRAP_HOST,
   port: ENV.MAILTRAP_PORT,
@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Register a new user
+//* Register a new user
 const register = async userData => {
   const { name, email, password } = userData;
 
@@ -68,7 +68,7 @@ const verify = async token => {
   return { message: 'User verified successfully', user };
 };
 
-// Login a user
+//* Login a user
 const login = async (email, password) => {
   // Check if both email and password are provided
   if (!email || !password) throw new Error('All fields are required');
@@ -101,7 +101,32 @@ const getCurrentUser = async userId => {
   return user;
 };
 
-const forgotPassword = async () => {};
+//* Forgot Password
+const forgotPassword = async email => {
+  if (!email) throw new Error('Email is required');
+
+  const user = await user.findOne({ email });
+  if (!user) throw new Error('User not found with this email');
+
+  // Generate and save reset token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  user.resetToken = resetToken;
+  user.resetPasswordExpiry = Date.now() + 10 * 60 * 1000;
+  await user.save();
+
+  // send reset password email
+  const mailOptions = generateMailOptions({
+    user,
+    token: resetToken,
+    type: 'reset',
+    companyName: 'URL Shortener',
+  });
+
+  await transporter.sendMail(mailOptions);
+
+  return { message: 'Reset password email sent successfully' };
+};
+
 const resetPassword = async () => {};
 
 export { register, verify, login, forgotPassword, resetPassword };
