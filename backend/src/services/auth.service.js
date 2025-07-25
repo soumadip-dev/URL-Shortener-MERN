@@ -69,7 +69,6 @@ const verify = async token => {
 };
 
 // Login a user
-// Login a user
 const login = async (email, password) => {
   // Check if both email and password are provided
   if (!email || !password) throw new Error('All fields are required');
@@ -95,5 +94,14 @@ const login = async (email, password) => {
   };
 };
 
+// Get current user
+const getCurrentUser = async userId => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found');
+  return user;
+};
+
 const forgotPassword = async () => {};
 const resetPassword = async () => {};
+
+export { register, verify, login, forgotPassword, resetPassword };
