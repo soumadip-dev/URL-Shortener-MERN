@@ -1,4 +1,4 @@
-import { ENV } from './env.js';
+import { ENV } from '../config/env.js';
 
 export default function generateMailOptions({ user, token, type, companyName }) {
   let subject, actionText, actionUrlPath, message;

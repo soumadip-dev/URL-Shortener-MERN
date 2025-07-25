@@ -8,6 +8,7 @@ import {
   forgotPassword,
   resetPassword,
 } from '../controllers/auth.controller.js';
+import { isLoogedIn } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
@@ -15,7 +16,7 @@ const router = Router();
 router.post('/register', registerUser);
 router.get('/verify/:token', verifyUser);
 router.post('/login', loginUser);
-router.get('/me', isLoggedIn, getMe);
+router.get('/me', isLoogedIn, getMe);
 router.get('/logout', logout);
 router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:token', resetPassword);
