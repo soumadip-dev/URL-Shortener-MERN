@@ -46,7 +46,7 @@ const register = async userData => {
     user: newUser,
     token,
     type: 'verify',
-    companyName: 'Auth System',
+    companyName: 'URL Shortener',
   });
 
   await transporter.sendMail(mailOptions);
@@ -148,4 +148,4 @@ const resetPassword = async (token, newPassword) => {
   return { message: 'Password reset successfully' };
 };
 
-export { register, verify, login, forgotPassword, resetPassword };
+export { register, verify, login, getCurrentUser, forgotPassword, resetPassword };
