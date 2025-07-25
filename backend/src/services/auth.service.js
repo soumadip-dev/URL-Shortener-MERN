@@ -16,6 +16,8 @@ const transporter = nodemailer.createTransport({
     pass: ENV.MAILTRAP_PASSWORD,
   },
 });
+
+// Register a new user
 const register = async userData => {
   const { name, email, password } = userData;
 
@@ -52,6 +54,7 @@ const register = async userData => {
   return { message: 'User created successfully', user: newUser };
 };
 
+// Verify a user
 const verify = async token => {
   if (!token) throw new Error('Token is required');
 
@@ -64,7 +67,33 @@ const verify = async token => {
 
   return { message: 'User verified successfully', user };
 };
-const login = async () => {};
-const logout = async () => {};
+
+// Login a user
+// Login a user
+const login = async (email, password) => {
+  // Check if both email and password are provided
+  if (!email || !password) throw new Error('All fields are required');
+
+  // Find the user by email
+  const user = await User.findOne({ email });
+  // If user is not found, throw an error
+  if (!user) throw new Error('User not found');
+
+  // Check if the password is correct
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  // If password is incorrect, throw an error
+  if (!isPasswordCorrect) throw new Error('Invalid credentials');
+
+  // Generate a JWT token
+  const token = jwt.sign({ id: user._id }, ENV.JWT_SECRET, { expiresIn: '1d' });
+  // Return the response
+  return {
+    message: 'Login successful',
+    // Return only the necessary user data
+    user: { id: user._id, name: user.name, email: user.email },
+    token,
+  };
+};
+
 const forgotPassword = async () => {};
 const resetPassword = async () => {};
