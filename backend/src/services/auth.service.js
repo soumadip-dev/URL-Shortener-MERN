@@ -102,7 +102,7 @@ const getCurrentUser = async userId => {
 };
 
 //* Forgot Password
-const forgotPassword = async email => {
+const forgotPass = async email => {
   if (!email) throw new Error('Email is required');
 
   const user = await user.findOne({ email });
@@ -127,7 +127,7 @@ const forgotPassword = async email => {
   return { message: 'Reset password email sent successfully' };
 };
 
-const resetPassword = async (token, newPassword) => {
+const resetPass = async (token, newPassword) => {
   if (!token || !newPassword) throw new Error('All fields are required');
 
   const user = await User.findOne({ resetToken: token, resetPasswordExpiry: { $gt: Date.now() } });
@@ -148,4 +148,4 @@ const resetPassword = async (token, newPassword) => {
   return { message: 'Password reset successfully' };
 };
 
-export { register, verify, login, getCurrentUser, forgotPassword, resetPassword };
+export { register, verify, login, getCurrentUser, forgotPass, resetPass };
