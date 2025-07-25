@@ -127,6 +127,25 @@ const forgotPassword = async email => {
   return { message: 'Reset password email sent successfully' };
 };
 
-const resetPassword = async () => {};
+const resetPassword = async (token, newPassword) => {
+  if (!token || !newPassword) throw new Error('All fields are required');
+
+  const user = await User.findOne({ resetToken: token, resetPasswordExpiry: { $gt: Date.now() } });
+
+  if (!user) throw new Error('User not found with this reset token');
+  if (!isStrongPassword(newPassword)) throw new Error('Password is not strong enough');
+
+  // Check if password is same as before
+  const isSamePassword = await bcrypt.compare(newPassword, user.password);
+  if (isSamePassword) throw new Error('Password is same as old password');
+
+  // Update the password
+  user.password = newPassword;
+  user.resetToken = undefined;
+  user.resetPasswordExpiry = undefined;
+  await user.save();
+
+  return { message: 'Password reset successfully' };
+};
 
 export { register, verify, login, forgotPassword, resetPassword };
