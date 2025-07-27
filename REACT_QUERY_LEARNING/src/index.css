@@ -11,6 +11,9 @@
 
 /* Post form section */
 .post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 32px;
 }
 
@@ -21,12 +24,13 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
-  margin-bottom: 20px;
-  transition: border-color 0.2s ease-in-out;
+  margin-bottom: 10px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s;
 }
 
 .postbox:focus {
   border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
 /* Tags section styling */
@@ -45,11 +49,39 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 .tag-option:hover {
   background-color: #f0f8ff;
+  border-color: #007bff;
+}
+
+.tag-option input[type='checkbox'] {
+  accent-color: #007bff;
+}
+
+/* Submit Button */
+.post-button {
+  align-self: flex-start;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s ease-in-out;
+}
+
+.post-button:hover {
+  background-color: #0069d9;
+  transform: scale(1.02);
+}
+
+.post-button:disabled {
+  background-color: #9bbbe9;
+  cursor: not-allowed;
 }
 
 /* Loading & Error messages */
@@ -107,17 +139,31 @@
   font-weight: 500;
   user-select: none;
 }
-.post-button {
-  background-color: #007bff;
-  margin-top: 5px;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
+
+/* Pagination */
+.pages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.pages button {
+  background-color: #f1f5f9;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.post-button:hover {
-  background-color: #0069d9;
+
+.pages button:hover {
+  background-color: #e0e0e0;
+}
+
+.pages span {
+  font-weight: bold;
+  font-size: 16px;
 }

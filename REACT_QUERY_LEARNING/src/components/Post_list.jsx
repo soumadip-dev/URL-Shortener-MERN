@@ -1,7 +1,9 @@
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { addPost, fetchPosts, fetchTags } from '../api/api';
+import { useState } from 'react';
 
 const PostList = () => {
+  const [page, setPage] = useState(1);
   const {
     data: postData,
     isError,
@@ -89,7 +91,11 @@ const PostList = () => {
           Error submitting post: {postError?.message}
         </p>
       )}
-
+      <div className="pages">
+        <button>Previous Page</button>
+        <span>{page}</span>
+        <button>Next Page</button>
+      </div>
       {postData?.map(post => (
         <div className="post-card" key={post.id}>
           <h2 className="post-title">{post.title}</h2>
