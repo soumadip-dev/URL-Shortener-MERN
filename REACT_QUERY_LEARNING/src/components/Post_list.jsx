@@ -10,8 +10,8 @@ const PostList = () => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['posts'],
-    queryFn: fetchPosts,
+    queryKey: ['posts', { page }],
+    queryFn: () => fetchPosts(page),
     gcTime: 0,
     refetchInterval: 1000 * 10,
   });
@@ -54,7 +54,7 @@ const PostList = () => {
     const formData = new FormData(e.target);
     const title = formData.get('title');
     const tags = formData.getAll('tags'); // Get all selected checkboxes
-    mutate({ title, tags });
+    mutate({ id: postData?.data?.length + 1, title, tags });
     e.target.reset(); // Optional: reset form after submit
   };
 
@@ -92,11 +92,18 @@ const PostList = () => {
         </p>
       )}
       <div className="pages">
-        <button>Previous Page</button>
+        <button
+          onClick={() => setPage(oldPage => Math.max(oldPage - 1, 0))}
+          disabled={!postData?.prev}
+        >
+          Previous Page
+        </button>
         <span>{page}</span>
-        <button>Next Page</button>
+        <button onClick={() => setPage(oldPage => oldPage + 1)} disabled={!postData?.next}>
+          Next Page
+        </button>
       </div>
-      {postData?.map(post => (
+      {postData?.data?.map(post => (
         <div className="post-card" key={post.id}>
           <h2 className="post-title">{post.title}</h2>
           <div className="tag-container">
