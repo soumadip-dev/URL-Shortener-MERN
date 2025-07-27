@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { addPost, fetchPosts, fetchTags } from '../api/api';
 
 const PostList = () => {
@@ -22,6 +22,8 @@ const PostList = () => {
     queryFn: fetchTags,
   });
 
+  const queryClient = useQueryClient();
+
   const {
     mutate,
     isError: isPostError,
@@ -30,33 +32,61 @@ const PostList = () => {
     reset,
   } = useMutation({
     mutationFn: addPost,
+    onMuted: () => {
+      return { id: 1 };
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({
+        queryKey: ['posts'],
+        exact: true,
+      });
+    },
+    // onError: () => {},
+    // onSettled: () => {},
   });
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const title = formData.get('title');
-    const tags = Array.from(formData.keys()).filter(key => formData.get(key) === 'on');
-    console.log(title, tags);
+    const tags = formData.getAll('tags'); // Get all selected checkboxes
+    mutate({ title, tags });
+    e.target.reset(); // Optional: reset form after submit
   };
 
   return (
     <div className="post-container">
-      <form className="post-form">
-        <input type="text" placeholder="Enter your post..." className="postbox" name="title" />
+      <form className="post-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter your post..."
+          className="postbox"
+          name="title"
+          required
+        />
 
         <div className="tags">
           {tagsData?.map(tag => (
             <div className="tag-option" key={tag}>
-              <input type="checkbox" id={tag} name={tag} />
+              <input type="checkbox" id={tag} name="tags" value={tag} />
               <label htmlFor={tag}>{tag}</label>
             </div>
           ))}
         </div>
+
+        <button type="submit" disabled={isPending} className="post-button">
+          {isPending ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
 
-      {isLoading && <p className="loading">Loading...</p>}
-      {isError && <p className="error">{error?.message}</p>}
+      {isLoading && <p className="loading">Loading posts...</p>}
+      {isError && <p className="error">Error loading posts: {error?.message}</p>}
+      {isTagError && <p className="error">Error loading tags: {tagError?.message}</p>}
+      {isPostError && (
+        <p onClick={() => reset()} className="error">
+          Error submitting post: {postError?.message}
+        </p>
+      )}
 
       {postData?.map(post => (
         <div className="post-card" key={post.id}>
