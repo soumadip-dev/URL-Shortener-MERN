@@ -4,6 +4,7 @@ import cors from 'cors';
 import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
 import shortUrlRoutes from './routes/shorturl.route.js';
+import auth_routes from './routes/auth.route.js';
 
 // Initialize an Express application
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 // Use the short URL routes
 app.use('/shorturl', shortUrlRoutes);
+app.use('/auth', auth_routes);
 
 // Function to connect to DB and start the server
 const startServer = async () => {
@@ -40,4 +42,3 @@ const startServer = async () => {
 };
 
 startServer();
-
