@@ -1,8 +1,8 @@
 // Import necessary modules
 import express from 'express';
-import { nanoid } from 'nanoid';
 import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
+import shortUrlRoutes from './routes/shorturl.route.js';
 
 // Initialize an Express application
 const app = express();
@@ -19,11 +19,8 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello From URL Shortener Backend!</h1>');
 });
 
-app.post('/api/create', (req, res) => {
-  const url = req.body;
-  console.log(url);
-  res.send(nanoid(7));
-});
+// Use the short URL routes
+app.use('/api/v1/shorturl', shortUrlRoutes);
 
 // Function to connect to DB and start the server
 const startServer = async () => {
