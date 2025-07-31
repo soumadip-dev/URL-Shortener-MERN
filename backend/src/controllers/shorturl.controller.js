@@ -17,5 +17,21 @@ const shortUrlController = async (req, res) => {
   }
 };
 
-// Export the controller
-export { shortUrlController };
+// Controller for redirecting to the full URL using the short URL
+const redirectController = async (req, res) => {
+  const { id } = req.params; // Extract the short URL ID from the request parameters
+  try {
+    const url = await urlSchema.findOne({ short_url: id }); // Find the full URL associated with the short URL ID
+    if (url) {
+      res.redirect(url.full_url); // Redirect to the full URL if found
+    } else {
+      throw new Error('Short URL not found');
+    }
+  } catch (error) {
+    console.error('Failed to redirect:', error);
+    res.status(404).json({ error: error.message });
+  }
+};
+
+// Export the controllers
+export { shortUrlController, redirectController };
