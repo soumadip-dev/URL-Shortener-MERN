@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 // Use the short URL routes
-app.use('/api/v1/shorturl', shortUrlRoutes);
+app.use('/shorturl', shortUrlRoutes);
 
 // Function to connect to DB and start the server
 const startServer = async () => {
