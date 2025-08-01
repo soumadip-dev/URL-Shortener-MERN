@@ -1,6 +1,5 @@
-import urlSchema from '../models/shorturl.model.js';
 import { generateNanoid } from '../utils/helper.js';
-import { saveShortUrl } from '../dao/shortUrl.dao.js';
+import { saveShortUrl, findUrlByShortId } from '../dao/shortUrl.dao.js';
 
 // Function to create a short URL from a full URL
 export const createShortUrl = async url => {
@@ -11,5 +10,5 @@ export const createShortUrl = async url => {
 
 // Function to retrieve the full URL using the short URL ID
 export const getFullUrl = async shortUrlId => {
-  return await urlSchema.findOne({ short_url: shortUrlId }); // Find and return the document with the matching short URL
+  return await findUrlByShortId(shortUrlId); // Find and return the document with the matching short URL
 };
