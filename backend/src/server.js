@@ -1,5 +1,6 @@
 // Import necessary modules
 import express from 'express';
+import cors from 'cors';
 import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
 import shortUrlRoutes from './routes/shorturl.route.js';
@@ -13,6 +14,9 @@ const PORT = ENV.PORT || 8080;
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Enable CORS
+app.use(cors());
 
 // Handle GET requests to the root URL
 app.get('/', (req, res) => {
@@ -36,3 +40,4 @@ const startServer = async () => {
 };
 
 startServer();
+
