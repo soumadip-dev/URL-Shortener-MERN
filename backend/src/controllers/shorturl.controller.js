@@ -1,17 +1,10 @@
-import { nanoid } from 'nanoid';
-import urlSchema from '../models/shorturl.model.js';
-import { generateNanoid } from '../utils/helper.js';
+import { createShortUrl } from '../services/shortUrl.service.js';
 
 // Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
-  const shortUrl = generateNanoid(7);
   try {
-    const newUrl = new urlSchema({
-      full_url: url,
-      short_url: shortUrl,
-    });
-    await newUrl.save(); // Save the new URL to the database
+    const shortUrl = await createShortUrl(url);
     res.status(201).json({ shortUrl }); // Return the short URL in the response
   } catch (error) {
     res.status(500).json({ error: 'Failed to create short URL' });
