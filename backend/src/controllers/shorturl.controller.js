@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid';
 import urlSchema from '../models/shorturl.model.js';
+import { generateNanoid } from '../utils/helper.js';
 
 // Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
-  const shortUrl = nanoid(7); // Generate a 7 character long short URL
+  const shortUrl = generateNanoid(7);
   try {
     const newUrl = new urlSchema({
       full_url: url,
