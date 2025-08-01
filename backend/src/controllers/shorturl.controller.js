@@ -29,16 +29,18 @@ const shortUrlController = async (req, res) => {
 // Controller for redirecting to the full URL using the short URL
 const redirectController = async (req, res) => {
   const { id } = req.params; // Extract the short URL ID from the request parameters
+
   try {
     const url = await getFullUrl(id);
-    if (url) {
-      res.redirect(url.full_url); // Redirect to the full URL if found
-    } else {
-      throw new Error('Short URL not found');
+
+    if (!url) {
+      return res.status(404).json({ error: 'Short URL not found' });
     }
+
+    res.redirect(url.full_url); // Redirect to the full URL if found
   } catch (error) {
     console.error('Failed to redirect:', error);
-    res.status(404).json({ error: error.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
