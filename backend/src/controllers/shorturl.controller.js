@@ -4,11 +4,25 @@ import { ENV } from '../config/env.js';
 // Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL is required' });
+  }
+
   try {
     const shortUrl = await createAnonymousShortUrl(url);
-    res.status(201).json({ shortUrl: `${ENV.APP_URL}/shorturl/${shortUrl}` }); // Return the short URL in the response
+
+    if (!shortUrl) {
+      return res.status(500).json({ error: 'Failed to create short URL' });
+    }
+
+    res.status(201).json({
+      shortUrl: `${ENV.APP_URL}/shorturl/${shortUrl}`,
+      message: 'Short URL created successfully',
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create short URL' });
+    console.error('Error creating short URL:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
