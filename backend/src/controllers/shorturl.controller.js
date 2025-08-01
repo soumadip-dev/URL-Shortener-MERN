@@ -1,4 +1,4 @@
-import { createShortUrl } from '../services/shortUrl.service.js';
+import { createShortUrl, getFullUrl } from '../services/shortUrl.service.js';
 
 // Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
@@ -15,7 +15,7 @@ const shortUrlController = async (req, res) => {
 const redirectController = async (req, res) => {
   const { id } = req.params; // Extract the short URL ID from the request parameters
   try {
-    const url = await urlSchema.findOne({ short_url: id }); // Find the full URL associated with the short URL ID
+    const url = await getFullUrl(id);
     if (url) {
       res.redirect(url.full_url); // Redirect to the full URL if found
     } else {

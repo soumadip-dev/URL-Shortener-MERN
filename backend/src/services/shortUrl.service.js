@@ -10,3 +10,7 @@ export const createShortUrl = async url => {
   await newUrl.save(); // Save the new URL to the database
   return shortUrl;
 };
+
+export const getFullUrl = async shortUrlId => {
+  return await urlSchema.findOne({ short_url: shortUrlId });
+};
