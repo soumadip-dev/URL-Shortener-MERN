@@ -1,11 +1,11 @@
-import { createShortUrl, getFullUrl } from '../services/shortUrl.service.js';
+import { createAnonymousShortUrl, getFullUrl } from '../services/shortUrl.service.js';
 import { ENV } from '../config/env.js';
 
 // Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
   const { url } = req.body;
   try {
-    const shortUrl = await createShortUrl(url);
+    const shortUrl = await createAnonymousShortUrl(url);
     res.status(201).json({ shortUrl: `${ENV.APP_URL}/shorturl/${shortUrl}` }); // Return the short URL in the response
   } catch (error) {
     res.status(500).json({ error: 'Failed to create short URL' });
