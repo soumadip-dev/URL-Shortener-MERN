@@ -1,5 +1,6 @@
 import { Copy, Link as LinkIcon, Loader2, Check } from 'lucide-react';
 import { useState } from 'react';
+import axios from 'axios';
 
 const App = () => {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -10,14 +11,17 @@ const App = () => {
   // These would be replaced with your actual API calls
   const handleSubmit = e => {
     e.preventDefault();
-    if (!originalUrl) return;
-
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setShortUrl(`https://shrt.ly/${Math.random().toString(36).substring(2, 8)}`);
-      setIsLoading(false);
-    }, 1000);
+    axios
+      .post('http://localhost:8080/shorturl/create', { url: originalUrl })
+      .then(response => {
+        setIsLoading(false);
+        setShortUrl(response.data.shortUrl);
+      })
+      .catch(error => {
+        setIsLoading(false);
+        console.error(error);
+      });
   };
 
   const handleCopy = () => {
