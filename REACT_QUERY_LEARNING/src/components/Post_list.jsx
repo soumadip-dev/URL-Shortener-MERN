@@ -10,16 +10,18 @@ const PostList = () => {
   } = useQuery({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    gcTime: 0,
+    refetchInterval: 1000 * 10,
   });
 
   const {
     data: tagsData,
     isError: isTagError,
-    isLoading: isTagLoading,
     error: tagError,
   } = useQuery({
     queryKey: ['tags'],
     queryFn: fetchTags,
+    staleTime: Infinity,
   });
 
   const queryClient = useQueryClient();
@@ -35,7 +37,7 @@ const PostList = () => {
     onMuted: () => {
       return { id: 1 };
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['posts'],
         exact: true,
