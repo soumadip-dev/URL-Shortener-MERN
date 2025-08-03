@@ -1,6 +1,7 @@
 import { Copy, Link as LinkIcon, Loader2, Check } from 'lucide-react';
 import { useState } from 'react';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -8,19 +9,22 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);
-    axios
-      .post('http://localhost:8080/shorturl/create', { url: originalUrl })
-      .then(response => {
-        setIsLoading(false);
-        setShortUrl(response.data.shortUrl);
-      })
-      .catch(error => {
-        setIsLoading(false);
-        console.error(error);
+    setShortUrl(''); // Reset previous short URL
+    try {
+      const response = await axios.post('http://localhost:8080/shorturl/create', {
+        url: originalUrl,
       });
+      setShortUrl(response.data.shortUrl);
+      toast.success('Short URL created successfully');
+    } catch (error) {
+      console.error('Error creating short URL:', error);
+      toast.error('Failed to create short URL');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCopy = () => {
@@ -32,6 +36,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+      <Toaster position="bottom-center" reverseOrder={false} />
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-8 transition-all hover:shadow-2xl">
         <div className="text-center space-y-3">
           <div className="flex justify-center">
@@ -54,6 +59,7 @@ const App = () => {
               placeholder="https://example.com/very-long-url..."
               className="w-full px-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
               required
+              pattern="https?://.+"
             />
           </div>
           <button
