@@ -1,4 +1,3 @@
-import { Copy, Link as LinkIcon, Loader2, Check } from 'lucide-react';
 import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -6,29 +5,36 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import UrlForm from './components/UrlForm';
 import ShortenedUrlDisplay from './components/ShortenedUrlDisplay';
+import { useMutation } from '@tanstack/react-query';
 
 const App = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const getShortUrl = async url => {
+    const response = await axios.post('http://localhost:8080/shorturl/create', {
+      url: url,
+    });
+    return response.data;
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: getShortUrl,
+    onSuccess: data => {
+      setShortUrl(data.shortUrl);
+      toast.success('Short URL created successfully');
+    },
+    onError: error => {
+      console.error('Error creating short URL:', error);
+      toast.error('Failed to create short URL');
+    },
+  });
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setIsLoading(true);
-    setShortUrl(''); // Reset previous short URL
-    try {
-      const response = await axios.post('http://localhost:8080/shorturl/create', {
-        url: originalUrl,
-      });
-      setShortUrl(response.data.shortUrl);
-      toast.success('Short URL created successfully');
-    } catch (error) {
-      console.error('Error creating short URL:', error);
-      toast.error('Failed to create short URL');
-    } finally {
-      setIsLoading(false);
-    }
+    setShortUrl('');
+    mutate(originalUrl);
   };
 
   const handleCopy = () => {
@@ -46,7 +52,7 @@ const App = () => {
         <UrlForm
           originalUrl={originalUrl}
           setOriginalUrl={setOriginalUrl}
-          isLoading={isLoading}
+          isLoading={isPending}
           handleSubmit={handleSubmit}
         />
         {shortUrl && (
