@@ -1,23 +1,16 @@
 import { useState } from 'react';
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import UrlForm from './components/UrlForm';
 import ShortenedUrlDisplay from './components/ShortenedUrlDisplay';
 import { useMutation } from '@tanstack/react-query';
+import { getShortUrl } from './api/urlService.api.js';
 
 const App = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [copied, setCopied] = useState(false);
-
-  const getShortUrl = async url => {
-    const response = await axios.post('http://localhost:8080/shorturl/create', {
-      url: url,
-    });
-    return response.data;
-  };
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['shortUrl'],
