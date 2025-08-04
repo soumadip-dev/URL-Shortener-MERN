@@ -29,6 +29,7 @@ const App = () => {
     e.preventDefault();
     setShortUrl('');
     mutate(originalUrl);
+    setOriginalUrl('');
   };
 
   const handleCopy = () => {
