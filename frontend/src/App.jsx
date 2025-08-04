@@ -20,6 +20,7 @@ const App = () => {
   };
 
   const { mutate, isPending } = useMutation({
+    mutationKey: ['shortUrl'],
     mutationFn: getShortUrl,
     onSuccess: data => {
       setShortUrl(data.shortUrl);
