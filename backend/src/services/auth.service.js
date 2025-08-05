@@ -51,6 +51,19 @@ const register = async userData => {
 
   return { message: 'User created successfully', user: newUser };
 };
+
+const verify = async token => {
+  if (!token) throw new Error('Token is required');
+
+  const user = await User.findOne({ verificationToken: token });
+  if (!user) throw new Error('User not found');
+
+  user.isVerified = true;
+  user.verificationToken = undefined;
+  await user.save();
+
+  return { message: 'User verified successfully', user };
+};
 const login = async () => {};
 const logout = async () => {};
 const forgotPassword = async () => {};
