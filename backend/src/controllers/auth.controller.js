@@ -24,7 +24,7 @@ const registerUser = async (req, res) => {
 const verifyUser = async (req, res) => {
   try {
     const { token } = req.params;
-    const result = await verifyUser(token);
+    const result = await verify(token);
     res.status(200).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
