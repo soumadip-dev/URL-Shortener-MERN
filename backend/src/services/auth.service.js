@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 const register = async userData => {
   const { name, email, password } = userData;
 
-  // Validate Input
+  // Validate input
   if (!name || !email || !password) throw new Error('All fields are required');
   if (!isValidEmail(email)) throw new Error('Email is not valid');
   if (!isStrongPassword(password)) throw new Error('Password is not strong enough');
@@ -30,14 +30,12 @@ const register = async userData => {
   const existingUser = await User.findOne({ email });
   if (existingUser) throw new Error('User already exists');
 
-  // Create a new User
+  // Create new user
   const newUser = await User.create({ name, email, password });
-  if (!newUser) throw new Error('Failed to create user');
+  if (!newUser) throw new Error('User not registered');
 
-  // Generate a verification token
+  // Generate and save verification token
   const token = crypto.randomBytes(32).toString('hex');
-
-  // save the token in the database
   newUser.verificationToken = token;
   await newUser.save();
 
