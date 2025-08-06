@@ -11,7 +11,7 @@ import {
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const result = await registerUser({ name, email, password });
+    const result = await register({ name, email, password });
     res.status(201).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
