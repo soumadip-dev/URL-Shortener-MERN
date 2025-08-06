@@ -126,9 +126,16 @@ const forgotPassword = async (req, res) => {
 //* Controller for reset password
 const resetPassword = async (req, res) => {
   try {
+    // Extract the token from the request parameters
     const { token } = req.params;
+
+    // Extract the new password from the request body
     const { password } = req.body;
+
+    // Call the resetPass service function to reset the password
     const result = await resetPass(token, password);
+
+    // Return a JSON response with a 200 status code
     res.status(200).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
