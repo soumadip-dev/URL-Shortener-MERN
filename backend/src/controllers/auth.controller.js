@@ -26,8 +26,11 @@ const registerUser = async (req, res) => {
 //* Controller for user verification
 const verifyUser = async (req, res) => {
   try {
+    // Extract the token from the request parameters
     const { token } = req.params;
+    // Call the verify service function to verify the user
     const result = await verify(token);
+    // Return a JSON response with a 200 status code
     res.status(200).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
