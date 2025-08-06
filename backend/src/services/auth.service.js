@@ -69,7 +69,7 @@ const verify = async token => {
 //* Login a user
 const login = async (email, password) => {
   // Check if both email and password are provided
-  if (!email || !password) throw new Error('All fields are required');
+  if (!email || !password) throw new Error('Email and password are required');
 
   // Find the user by email
   const user = await User.findOne({ email });
@@ -79,16 +79,18 @@ const login = async (email, password) => {
   // Check if the password is correct
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   // If password is incorrect, throw an error
-  if (!isPasswordCorrect) throw new Error('Invalid credentials');
+  if (!isPasswordCorrect) throw new Error('Password is incorrect');
 
-  // Generate a JWT token
-  const token = jwt.sign({ id: user._id }, ENV.JWT_SECRET, { expiresIn: '1d' });
-  // Return the response
+  // Generate JWT token
+  const token = jwt.sign({ id: user._id, role: user.role }, ENV.JWT_SECRET, { expiresIn: '1d' });
+
   return {
-    message: 'Login successful',
-    // Return only the necessary user data
-    user: { id: user._id, name: user.name, email: user.email },
     token,
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    },
   };
 };
 
