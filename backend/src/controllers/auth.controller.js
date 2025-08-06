@@ -10,8 +10,11 @@ import {
 //* Coontroller for registering user
 const registerUser = async (req, res) => {
   try {
+    // Extract the name, email, and password from the request body
     const { name, email, password } = req.body;
+    // Call the register service function to register the user
     const result = await register({ name, email, password });
+    // Return a JSON response with a 201 status code
     res.status(201).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
