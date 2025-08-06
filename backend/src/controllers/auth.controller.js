@@ -34,14 +34,35 @@ const verifyUser = async (req, res) => {
 };
 
 //* Controller for login user
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const response = login(email, password);
-    res.status(200).json({ message: response.message, success: true });
+    const { token, user } = await loginUser(email, password);
+
+    // Set cookie (HTTP-specific logic stays in controller)
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: ENV.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000,
+    };
+    res.cookie('jwt', token, cookieOptions);
+
+    res.status(200).json({
+      message: 'User logged in successfully',
+      success: true,
+      token,
+      user,
+    });
   } catch (error) {
     console.error(error.message);
-    const statusCode = error.message.includes('not found') ? 404 : 400;
+    const statusCode = error.message.includes('not found')
+      ? 404
+      : error.message.includes('verified')
+      ? 401
+      : error.message.includes('Password')
+      ? 401
+      : 400;
     res.status(statusCode).json({ message: error.message, success: false });
   }
 };
