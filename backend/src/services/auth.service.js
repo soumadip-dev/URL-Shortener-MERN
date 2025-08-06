@@ -105,26 +105,26 @@ const getCurrentUser = async userId => {
 const forgotPass = async email => {
   if (!email) throw new Error('Email is required');
 
-  const user = await user.findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) throw new Error('User not found with this email');
 
   // Generate and save reset token
-  const resetToken = crypto.randomBytes(32).toString('hex');
-  user.resetToken = resetToken;
+  const token = crypto.randomBytes(32).toString('hex');
+  user.resetPasswordToken = token;
   user.resetPasswordExpiry = Date.now() + 10 * 60 * 1000;
   await user.save();
 
-  // send reset password email
+  // Send reset email
   const mailOptions = generateMailOptions({
     user,
-    token: resetToken,
+    token,
     type: 'reset',
-    companyName: 'URL Shortener',
+    companyName: 'Auth System',
   });
 
   await transporter.sendMail(mailOptions);
 
-  return { message: 'Reset password email sent successfully' };
+  return { message: 'Password reset email sent successfully' };
 };
 
 const resetPass = async (token, newPassword) => {
