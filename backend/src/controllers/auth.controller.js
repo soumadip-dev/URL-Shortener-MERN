@@ -103,7 +103,24 @@ const forgotPassword = async (req, res) => {
 };
 
 //* Controller for reset password
-const resetPassword = async (req, res) => {};
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    const result = await resetPass(token, password);
+    res.status(200).json({ message: result.message, success: true });
+  } catch (error) {
+    console.error(error.message);
+    const statusCode = error.message.includes('not found')
+      ? 404
+      : error.message.includes('strong enough')
+      ? 400
+      : error.message.includes('same as old')
+      ? 401
+      : 400;
+    res.status(statusCode).json({ message: error.message, success: false });
+  }
+};
 
 // Export the controllers
 export { registerUser, verifyUser, loginUser, getMe, logout, forgotPassword, resetPassword };
