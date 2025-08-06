@@ -79,7 +79,15 @@ const getMe = async (req, res) => {
 };
 
 //* Controller for logout
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.status(200).json({ message: 'User logged out successfully', success: true });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Something went wrong when logging out', success: false });
+  }
+};
 
 //* Controller for forgot password
 const forgotPassword = async (req, res) => {};
