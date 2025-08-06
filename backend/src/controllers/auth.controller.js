@@ -11,8 +11,8 @@ import {
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const response = await register({ name, email, password });
-    res.status(201).json({ message: response.message, success: true });
+    const result = await registerUser({ name, email, password });
+    res.status(201).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
     const statusCode = error.message.includes('not found') ? 404 : 400;
