@@ -80,7 +80,10 @@ const loginUser = async (req, res) => {
 //* Controller for getting current user
 const getMe = async (req, res) => {
   try {
+    // Extract the user ID from the request added by middleware
+    // Call the getCurrentUser service function to get the user
     const user = await getCurrentUser(req.user.id);
+    // Return a JSON response with a 200 status code
     res.status(200).json({ message: 'User found', success: true, user });
   } catch (error) {
     console.error(error.message);
