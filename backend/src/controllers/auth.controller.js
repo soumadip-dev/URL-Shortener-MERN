@@ -108,8 +108,13 @@ const logout = async (req, res) => {
 //* Controller for forgot password
 const forgotPassword = async (req, res) => {
   try {
+    // Extract the email from the request body
     const { email } = req.body;
+
+    // Call the forgotPass service function to send a password reset email
     const result = await forgotPass(email);
+
+    // Return a JSON response with a 200 status code
     res.status(200).json({ message: result.message, success: true });
   } catch (error) {
     console.error(error.message);
