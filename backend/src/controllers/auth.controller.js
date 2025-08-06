@@ -42,7 +42,10 @@ const verifyUser = async (req, res) => {
 //* Controller for login user
 const loginUser = async (req, res) => {
   try {
+    // Extract the email and password from the request body
     const { email, password } = req.body;
+
+    // Call the login service function to login the user
     const { token, user } = await login(email, password);
 
     // Set cookie (HTTP-specific logic stays in controller)
@@ -54,6 +57,7 @@ const loginUser = async (req, res) => {
     };
     res.cookie('jwt', token, cookieOptions);
 
+    // Return a JSON response with a 200 status code
     res.status(200).json({
       message: 'User logged in successfully',
       success: true,
