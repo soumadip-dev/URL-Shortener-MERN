@@ -90,7 +90,17 @@ const logout = async (req, res) => {
 };
 
 //* Controller for forgot password
-const forgotPassword = async (req, res) => {};
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const result = await forgotPass(email);
+    res.status(200).json({ message: result.message, success: true });
+  } catch (error) {
+    console.error(error.message);
+    const statusCode = error.message.includes('not found') ? 404 : 400;
+    res.status(statusCode).json({ message: error.message, success: false });
+  }
+};
 
 //* Controller for reset password
 const resetPassword = async (req, res) => {};
