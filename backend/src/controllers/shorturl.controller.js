@@ -7,18 +7,17 @@ import { ENV } from '../config/env.js';
 
 //* Controller for creating a new short URL
 const shortUrlController = async (req, res) => {
-  const { url } = req.body;
-
-  if (!url) {
+  const data = req.body;
+  if (!data.url) {
     return res.status(400).json({ error: 'URL is required' });
   }
 
   try {
     let shortUrl;
     if (req.user) {
-      shortUrl = await createUserShortUrl(url, req.user.id);
+      shortUrl = await createUserShortUrl(data.url, req.user.id, data.slug);
     } else {
-      shortUrl = await createAnonymousShortUrl(url);
+      shortUrl = await createAnonymousShortUrl(data.url);
     }
 
     if (!shortUrl) {
