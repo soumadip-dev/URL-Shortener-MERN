@@ -37,7 +37,7 @@ const verifyUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { token, user } = await loginUser(email, password);
+    const { token, user } = await login(email, password);
 
     // Set cookie (HTTP-specific logic stays in controller)
     const cookieOptions = {
