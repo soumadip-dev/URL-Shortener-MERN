@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import UrlForm from '../components/UrlForm';
-import ShortenedUrlDisplay from '../components/ShortenedUrlDisplay';
+import Footer from '../components/Footer.jsx';
+import Header from '../components/Header.jsx';
+import UrlForm from '../components/UrlForm.jsx';
+import ShortenedUrlDisplay from '../components/ShortenedUrlDisplay.jsx';
 import { useMutation } from '@tanstack/react-query';
 import { getShortUrl } from '../api/urlService.api.js';
 import toast, { Toaster } from 'react-hot-toast';
