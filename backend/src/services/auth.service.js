@@ -1,22 +1,8 @@
-import User from '../models/user.model.js';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
 import { ENV } from '../config/env.js';
-import generateMailOptions from '../utils/mailTemplates.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { isValidEmail, isStrongPassword } from '../utils/validation.js';
 import authDAO from '../dao/auth.dao.js';
-
-//* Email transporter configuration
-const transporter = nodemailer.createTransport({
-  host: ENV.MAILTRAP_HOST,
-  port: ENV.MAILTRAP_PORT,
-  auth: {
-    user: ENV.MAILTRAP_USERNAME,
-    pass: ENV.MAILTRAP_PASSWORD,
-  },
-});
 
 //* Register a new user
 const register = async userData => {
@@ -35,34 +21,8 @@ const register = async userData => {
   const newUser = await authDAO.createUser({ name, email, password });
   if (!newUser) throw new Error('User not registered');
 
-  // Generate and save verification token
-  const token = crypto.randomBytes(32).toString('hex');
-  newUser.verificationToken = token;
-  await newUser.save();
-
-  // Send verification email
-  const mailOptions = generateMailOptions({
-    user: newUser,
-    token,
-    type: 'verify',
-    companyName: 'URL Shortener',
-  });
-
-  await transporter.sendMail(mailOptions);
-
+  // Return success message
   return { message: 'User created successfully', user: newUser };
-};
-
-//* Verify a user
-const verify = async token => {
-  if (!token) throw new Error('Token is required');
-
-  const user = await authDAO.findUserByVerificationToken(token);
-  if (!user) throw new Error('User not found');
-
-  await authDAO.updateUserVerification(user._id, true);
-
-  return { message: 'User verified successfully', user };
 };
 
 //* Login a user
@@ -95,53 +55,4 @@ const login = async (email, password) => {
   };
 };
 
-//* Get current user
-const getCurrentUser = async userId => {
-  const user = await authDAO.findUserById(userId);
-  if (!user) throw new Error('User not found');
-  return user;
-};
-
-//* Forgot Password
-const forgotPass = async email => {
-  if (!email) throw new Error('Email is required');
-
-  const user = await authDAO.findUserByEmail(email);
-  if (!user) throw new Error('User not found with this email');
-
-  // Generate and save reset token
-  const token = crypto.randomBytes(32).toString('hex');
-  await authDAO.setResetPasswordToken(user._id, token);
-
-  // Send reset email
-  const mailOptions = generateMailOptions({
-    user,
-    token,
-    type: 'reset',
-    companyName: 'Auth System',
-  });
-
-  await transporter.sendMail(mailOptions);
-
-  return { message: 'Password reset email sent successfully' };
-};
-
-//* Reset Password
-const resetPass = async (token, newPassword) => {
-  if (!token) throw new Error('Reset token is required');
-
-  const user = await authDAO.findUserByResetToken(token);
-  if (!user) throw new Error('User not found with this reset token');
-  if (!isStrongPassword(newPassword)) throw new Error('Password is not strong enough');
-
-  // Check if new password is same as old password
-  const isSamePassword = await bcrypt.compare(newPassword, user.password);
-  if (isSamePassword) throw new Error('Password is same as old password');
-
-  // Update user password
-  await authDAO.updateUserPassword(user._id, newPassword);
-
-  return { message: 'Password reset successfully' };
-};
-
-export { register, verify, login, getCurrentUser, forgotPass, resetPass };
+export { register, login };
