@@ -1,41 +1,24 @@
-import axiosInstance from '../utils/axiosInsance';
+import axiosInstance from '../utils/axiosInsance.js';
 
-export const registerUser = async (email, password) => {
+export const registerUser = async (name, email, password) => {
   const response = await axiosInstance.post('/auth/register', {
-    email,
-    password,
+    name: name,
+    email: email,
+    password: password,
   });
-  return response.data;
-};
-
-export const verifyUser = async token => {
-  const response = await axiosInstance.get(`/auth/verify/${token}`);
+  console.log(response);
   return response.data;
 };
 
 export const loginUser = async (email, password) => {
   const response = await axiosInstance.post('/auth/login', {
-    email,
-    password,
+    email: email,
+    password: password,
   });
   return response.data;
 };
 
 export const logoutUser = async () => {
-  const response = await axiosInstance.post('/auth/logout');
-  return response.data;
-};
-
-export const forgotPassword = async email => {
-  const response = await axiosInstance.post('/auth/forgot-password', {
-    email,
-  });
-  return response.data;
-};
-
-export const resetPassword = async (token, password) => {
-  const response = await axiosInstance.post(`/auth/reset-password/${token}`, {
-    password,
-  });
+  const response = await axiosInstance.get('/auth/logout');
   return response.data;
 };
