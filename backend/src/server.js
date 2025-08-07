@@ -24,7 +24,12 @@ app.use(cookieParser());
 app.use(attachUser);
 
 // Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // or your frontend URL
+    credentials: true,
+  })
+);
 
 // Handle GET requests to the root URL
 app.get('/', (req, res) => {
