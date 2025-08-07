@@ -39,11 +39,3 @@ export const resetPassword = async (token, password) => {
   });
   return response.data;
 };
-
-
-feat(user-api): add all auth endpoints matching backend
-
-- Implement register, verify, login endpoints
-- Add logout, forgotPassword, and resetPassword functions
-- Include JSDoc documentation for all API methods
-- Match backend controller parameters and responses
