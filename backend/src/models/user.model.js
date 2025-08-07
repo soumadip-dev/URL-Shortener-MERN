@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+//* Create the user schema
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -16,25 +17,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-      required: false,
-      default:
-        'https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png',
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: {
-      type: String,
-    },
-    resetPasswordToken: {
-      type: String,
-    },
-    resetPasswordExpiry: {
-      type: Date,
-    },
   },
   {
     timestamps: true,
@@ -49,8 +31,8 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Create the user model
+//* Create the user model
 const User = mongoose.model('User', userSchema);
 
-// Export the user model
+//* Export the user model
 export default User;
