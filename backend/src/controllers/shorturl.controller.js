@@ -30,7 +30,7 @@ const shortUrlController = async (req, res) => {
     });
   } catch (error) {
     console.error('Error creating short URL:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 };
 
