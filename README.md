@@ -22,17 +22,14 @@ A URL shortening application developed using the MERN stack for efficient and mo
 
 ---
 
-<!--
 ## 🌟 Features (Planned)
 
-- 📝 **Tweet Posting** – Users can create short posts (tweets) with optional media.
-- 💬 **Replies & Threads** – Engage in threaded conversations.
-- ❤️ **Likes & Reposts** – Interact with tweets using likes and repost functionality.
-- 🧑‍🤝‍🧑 **Follow System** – Follow users and curate a personalized feed.
+- 🔗 **URL Shortening** – Generate short, unique URLs for long URLs.
 - 🔐 **User Authentication** – Secure login and registration using JWT.
-- 📱 **Mobile-First UI** – Built with React Native for a smooth mobile experience.
 
 ---
+
+<!--
 
 ## 🛠 Tech Stack & Architecture
 
