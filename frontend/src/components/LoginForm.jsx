@@ -3,6 +3,7 @@ import { loginUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, Mail, Key, ArrowRight, User } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 //* Utility function for extracting error messages
 const getErrorMessage = err => {
@@ -17,6 +18,8 @@ const getErrorMessage = err => {
 
 //* Login form component
 const LoginForm = ({ changePage }) => {
+  const auth = useSelector(state => state.auth);
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,7 +28,8 @@ const LoginForm = ({ changePage }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
-    onSuccess: () => {
+    onSuccess: data => {
+      console.log(data);
       setFormData({ email: '', password: '' });
       toast.success('Login successful');
     },
