@@ -29,13 +29,10 @@ A URL shortening application developed using the MERN stack for efficient and mo
 
 ---
 
-<!--
-
 ## 🛠 Tech Stack & Architecture
 
-- **Frontend**: React Native with Expo – for rapid mobile development.
+- **Frontend**: React, Redux, Tailwind CSS.
 - **Backend**: Node.js with Express – RESTful API structure.
 - **Database**: MongoDB with Mongoose – flexible document-based storage.
-- **Authentication**: Clerk – secure and scalable authentication solution.
 
---- -->
+---
