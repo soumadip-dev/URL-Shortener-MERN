@@ -20,7 +20,7 @@ const RegisterForm = ({ changePage }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '8Uh9M96cZq$',
+    password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
 
