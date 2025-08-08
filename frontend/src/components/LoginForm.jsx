@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { Eye, EyeOff, Mail, Key, ArrowRight, User } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../store/slice/authSlice.js';
+import { useNavigate } from '@tanstack/react-router';
 
 //* Utility function for extracting error messages
 const getErrorMessage = err => {
@@ -20,6 +21,7 @@ const getErrorMessage = err => {
 //* Login form component
 const LoginForm = ({ changePage }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector(state => state.auth);
   console.log(auth.user);
 
@@ -33,6 +35,7 @@ const LoginForm = ({ changePage }) => {
     mutationFn: loginUser,
     onSuccess: data => {
       dispatch(login(data.user));
+      navigate({ to: '/dashboard' });
       setFormData({ email: '', password: '' });
       toast.success('Login successful');
     },
