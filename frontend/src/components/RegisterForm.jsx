@@ -20,7 +20,7 @@ const RegisterForm = ({ changePage }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
+    password: '8Uh9M96cZq$',
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,6 +29,7 @@ const RegisterForm = ({ changePage }) => {
     onSuccess: () => {
       setFormData({ name: '', email: '', password: '' });
       toast.success('Registration successful');
+      changePage('login');
     },
     onError: err => {
       toast.error(getErrorMessage(err));
