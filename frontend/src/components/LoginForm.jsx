@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../api/user.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, Mail, Key, ArrowRight, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Key, ArrowRight, User, Loader2 } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../store/slice/authSlice.js';
 import { useNavigate } from '@tanstack/react-router';
@@ -147,7 +147,10 @@ const LoginForm = ({ changePage }) => {
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3.5 px-4 rounded-xl flex items-center justify-center transition-all disabled:opacity-80 shadow-lg hover:shadow-indigo-200 active:scale-[0.98] group"
           >
             {isPending ? (
-              'Logging in...'
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Logging in...
+              </>
             ) : (
               <>
                 Login
