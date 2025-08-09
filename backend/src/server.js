@@ -5,6 +5,7 @@ import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
 import shortUrlRoutes from './routes/shorturl.route.js';
 import auth_routes from './routes/auth.route.js';
+import user_routes from './routes/user.route.js';
 import cookieParser from 'cookie-parser';
 import { attachUser } from './utils/attachUser.js';
 
@@ -39,6 +40,7 @@ app.get('/', (req, res) => {
 //* Use the short URL routes
 app.use('/shorturl', shortUrlRoutes);
 app.use('/auth', auth_routes);
+app.use('/user', user_routes);
 
 //* Function to connect to DB and start the server
 const startServer = async () => {
