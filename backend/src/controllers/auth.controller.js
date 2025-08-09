@@ -68,5 +68,10 @@ const logout = async (req, res) => {
   }
 };
 
+//* Get currect user
+const getCurrentUser = async (req, res) => {
+  res.status(200).json({ user: req.user, success: true, message: 'User fetched successfully' });
+};
+
 //* Export the controllers
 export { registerUser, loginUser, logout };
