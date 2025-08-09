@@ -40,7 +40,7 @@ const UrlShortner = () => {
   };
 
   return (
-    <div className="min-h-[90vh] bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-[93vh] bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50 flex flex-col justify-center items-center p-4">
       <Toaster position="bottom-center" reverseOrder={false} />
       {/* Header */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-8 transition-all hover:shadow-2xl relative overflow-hidden">
