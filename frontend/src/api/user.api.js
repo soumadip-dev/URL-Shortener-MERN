@@ -21,6 +21,12 @@ export const loginUser = async credentials => {
   return response.data;
 };
 
+//* Mutation function to Get current user
+export const getCurrentUser = async () => {
+  const response = await axiosInstance.get('/auth/check');
+  return response.data;
+};
+
 //* Mutation function to Logout a user
 export const logoutUser = async () => {
   const response = await axiosInstance.get('/auth/logout');
