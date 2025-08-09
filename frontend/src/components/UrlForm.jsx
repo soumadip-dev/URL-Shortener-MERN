@@ -3,11 +3,14 @@ import { useMutation } from '@tanstack/react-query';
 import { getShortUrl } from '../api/urlService.api.js';
 import toast, { Toaster } from 'react-hot-toast';
 import { LinkIcon, Loader2, ArrowRight, Check, Copy } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const UrlShortner = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [copied, setCopied] = useState(false);
+  const { isAuthenticated } = useSelector(state => state.auth);
+  const [customSlug, setCustomSlug] = useState('');
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['shortUrl'],
@@ -70,6 +73,22 @@ const UrlShortner = () => {
               <LinkIcon className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
             </div>
           </div>
+          {isAuthenticated && (
+            <div className="space-y-1">
+              <div className="relative">
+                <input
+                  type="text"
+                  id="customSlug"
+                  value={customSlug}
+                  onChange={e => setCustomSlug(e.target.value)}
+                  placeholder="Custom slug (optional)"
+                  className="w-full pl-10 pr-5 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all shadow-sm hover:border-indigo-300"
+                />
+                <span className="absolute left-3 top-3.5 text-xs text-gray-400">/</span>
+              </div>
+              <p className="text-xs text-gray-500 pl-2">Only available for registered users</p>
+            </div>
+          )}
           <button
             type="submit"
             disabled={isPending}
