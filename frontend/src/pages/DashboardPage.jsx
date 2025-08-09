@@ -1,4 +1,5 @@
+import UrlShortner from '../components/UrlForm';
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return <UrlShortner />;
 };
 export default DashboardPage;
