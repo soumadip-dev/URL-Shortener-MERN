@@ -1,4 +1,4 @@
-import UrlShortner from '../components/UrlForm';
+import UrlShortner from '../components/UrlShortner';
 
 const HomePage = () => {
   return <UrlShortner />;

@@ -1,4 +1,4 @@
-import UrlShortner from '../components/UrlForm';
+import UrlShortner from '../components/UrlShortner';
 import UserUrl from '../components/UserUrl';
 
 const DashboardPage = () => {
