@@ -3,11 +3,13 @@ import UserUrl from '../components/UserUrl';
 
 const DashboardPage = () => {
   return (
-    <div className="flex flex-row justify-center ">
+    <div className="flex flex-col md:flex-row justify-center gap-1">
+      {/* UrlShortner on top for small screens */}
       <div className="flex-1">
         <UrlShortner />
       </div>
-      <div className="flex-2">
+      {/* UserUrl below for small screens */}
+      <div className="flex-1">
         <UserUrl />
       </div>
     </div>
