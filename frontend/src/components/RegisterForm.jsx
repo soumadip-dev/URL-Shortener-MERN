@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { registerUser } from '../api/user.api.js';
+import { registerUser } from '../api/auth.api.js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, User, Mail, Key, ArrowRight, UserPlus, Loader2 } from 'lucide-react';
