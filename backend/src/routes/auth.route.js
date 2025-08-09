@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerUser, loginUser, logout } from '../controllers/auth.controller.js';
+import { registerUser, loginUser, logout, getCurrentUser } from '../controllers/auth.controller.js';
 import { isLoogedIn } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -8,6 +8,7 @@ const router = Router();
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/logout', logout);
+router.get('/check', isLoogedIn, getCurrentUser);
 
 // Export the router
 export default router;

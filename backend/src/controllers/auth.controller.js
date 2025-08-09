@@ -74,4 +74,4 @@ const getCurrentUser = async (req, res) => {
 };
 
 //* Export the controllers
-export { registerUser, loginUser, logout };
+export { registerUser, loginUser, logout, getCurrentUser };
