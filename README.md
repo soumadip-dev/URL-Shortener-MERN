@@ -11,25 +11,25 @@
 </div>
 
 <h3 align="center">
-A URL shortening application developed using the MERN stack for efficient and modern web experience.
+  A URL shortening application developed using the MERN stack for an efficient and modern web experience.
 </h3>
 
 ---
 
 ## 🌟 Features
 
-- 🔗 **URL Shortening** – Generate short, unique URLs for long URLs.
-- 🌐 **Custom Short URLs** – Generate custom short URLs for specific URLs.
+- 🔗 **URL Shortening** – Generate short, unique URLs for long links.
+- 🌐 **Custom Short URLs** – Create personalized short URLs.
 - 🔐 **User Authentication** – Secure login and registration using JWT.
-- 📊 **Analytics** – Track URL usage and generate reports.
+- 📊 **Analytics** – Track URL visits and generate usage reports.
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Frontend**: React, Redux, Tailwind CSS, Tanstack Router, Tanstack Query
-- **Backend**: Node.js with Express – RESTful API structure
-- **Database**: MongoDB with Mongoose – flexible document-based storage
+- **Backend**: Node.js with Express (RESTful API)
+- **Database**: MongoDB with Mongoose (document-based storage)
 
 ---
 
@@ -39,7 +39,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
 
 - Node.js (v18 or higher)
 - npm or yarn
-- MongoDB Atlas account or local MongoDB instance
+- MongoDB Atlas account (or local MongoDB instance)
 
 ### Setup
 
@@ -57,7 +57,7 @@ A URL shortening application developed using the MERN stack for efficient and mo
    npm install
    ```
 
-   Create a `.env` file in the server directory with:
+   Create a `.env` file in the `server` directory with:
 
    ```env
    PORT=8080
@@ -74,19 +74,19 @@ A URL shortening application developed using the MERN stack for efficient and mo
    npm install
    ```
 
-   Configure the `src/config.js` file with your backend URL:
+   Create a `.env` file in the `client` directory with:
 
-   ```js
-   export const BACKEND_URL = 'http://localhost:8080';
+   ```env
+   VITE_BACKEND_URL=<YOUR_BACKEND_URL>
    ```
 
-4. **Running the Application**
-   - First terminal (backend):
+4. **Run the Application**
+   - Backend (Terminal 1):
      ```bash
      cd server
      npm run dev
      ```
-   - Second terminal (frontend):
+   - Frontend (Terminal 2):
      ```bash
      cd ../client
      npm run dev
